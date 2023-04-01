@@ -42,4 +42,5 @@ package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
-public/antd.min.css
+theme/output/antd.min.css
+theme/output/antdStyle.ts
