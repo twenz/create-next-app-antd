@@ -3,11 +3,13 @@ import path from "path";
 import { extractStyle } from "@ant-design/static-style-extract";
 import withTheme from "../theme";
 
-const outputStylePath = "./theme/output/antdStyle.ts";
-const outputCssPath = "./theme/output/antd.min.css";
+const outputDir = "./theme/output";
 
-if (!fs.existsSync(path.dirname(outputStylePath))) {
-    fs.mkdirSync(path.dirname(outputStylePath), { recursive: true });
+const outputStylePath = path.resolve(outputDir, "antdStyle.ts");
+const outputCssPath = path.resolve(outputDir, "antd.min.css");
+
+if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
 }
 
 // 1. default theme
