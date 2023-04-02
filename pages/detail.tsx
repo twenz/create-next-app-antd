@@ -2,8 +2,7 @@ import { Form, InputNumber, Switch } from "antd";
 
 export default function Home() {
   return (
-    <>
-      <Form labelCol={{ span: 8 }} wrapperCol={{ span: 8 }}>
+    <Form labelCol={{ span: 8 }} wrapperCol={{ span: 8 }}>
         <Form.Item label="数字输入框">
           <InputNumber min={1} max={10} defaultValue={3} />
           <span className="ant-form-text"> 台机器</span>
@@ -13,6 +12,5 @@ export default function Home() {
           <Switch defaultChecked />
         </Form.Item>
       </Form>
-    </>
   );
 }
