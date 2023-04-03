@@ -1,4 +1,3 @@
-import { extractStyle } from "@ant-design/static-style-extract";
 import Document, {
   Html,
   Head,
@@ -7,25 +6,27 @@ import Document, {
   DocumentContext,
 } from "next/document";
 import { doExtraStyle } from "../scripts/genAntdCss";
+import { StyleProvider, createCache } from "@ant-design/cssinjs";
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
-    let fileName = '';
+    const cache = createCache();
+    let fileName = "";
     const originalRenderPage = ctx.renderPage;
     ctx.renderPage = () =>
       originalRenderPage({
-        enhanceApp: (App) => (props) => {
-          const { router } = props;
-          const page = <App {...props} />;
-          // 1.1 extract style which had been used
-          fileName = doExtraStyle({
-            node: page,
-            asPath: router.asPath,
-          });
-          return page;
-        },
+        enhanceApp: (App) => (props) =>
+          (
+            <StyleProvider cache={cache}>
+              <App {...props} />
+            </StyleProvider>
+          ),
       });
 
     const initialProps = await Document.getInitialProps(ctx);
+    // 1.1 extract style which had been used
+    fileName = doExtraStyle({
+      cache,
+    });
     return {
       ...initialProps,
       styles: (
