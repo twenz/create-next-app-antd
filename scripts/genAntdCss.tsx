@@ -1,8 +1,10 @@
 import fs from "fs";
 import path from "path";
-import { extractStyle } from "@ant-design/static-style-extract";
-import withTheme from "../theme";
+import { StyleProvider, createCache, extractStyle } from "@ant-design/cssinjs"
+import { renderToString } from "react-dom/server"
 import { createHash } from "crypto";
+
+const styleTagReg = /<style[^>]*>([\s\S]*?)<\/style>/g;
 
 export type DoExtraStyleOptions = {
   node: React.ReactElement;
@@ -23,18 +25,15 @@ export function doExtraStyle({
   
   const outputCssPath = path.join(baseDir, dir);
 
-  // clean
   if (!fs.existsSync(outputCssPath)) {
     fs.mkdirSync(outputCssPath, { recursive: true });
   }
 
-  // 1. default theme
+  const cache = createCache();
 
-  // const css = extractStyle();
-
-  // 2. With custom theme
-
-  const css = extractStyle(() => withTheme(node));
+  renderToString(<StyleProvider cache={cache}>{node}</StyleProvider>);
+  const cssText = extractStyle(cache);
+  const css = cssText.replace(styleTagReg, '$1');
 
   const md5 = createHash("md5");
   const hash = md5.update(css).digest("hex");
