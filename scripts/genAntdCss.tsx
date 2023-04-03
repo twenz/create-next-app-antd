@@ -13,7 +13,7 @@ const outputCssPath = path.resolve(outputDir, outputCssFileName);
 const displayPath = (name: string) => `${outputDir}/${name}`;
 
 if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
+  fs.mkdirSync(outputDir, { recursive: true });
 }
 
 // 1. default theme
