@@ -44,3 +44,5 @@ pnpm-lock.yaml
 
 theme/output/antd.min.css
 theme/output/antdStyle.ts
+
+public/
