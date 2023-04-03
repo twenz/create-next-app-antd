@@ -1,9 +1,8 @@
 import fs from "fs";
 import path from "path";
-import { StyleProvider, createCache, extractStyle } from "@ant-design/cssinjs";
-import { renderToString } from "react-dom/server";
+import { extractStyle } from "@ant-design/cssinjs";
 import { createHash } from "crypto";
-import Entity from "@ant-design/cssinjs/lib/Cache";
+import type Entity from "@ant-design/cssinjs/lib/Cache";
 
 const styleTagReg = /<style[^>]*>([\s\S]*?)<\/style>/g;
 
