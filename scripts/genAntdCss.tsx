@@ -24,11 +24,9 @@ export function doExtraStyle({
   const outputCssPath = path.join(baseDir, dir);
 
   // clean
-  if (fs.existsSync(outputCssPath)) {
-    fs.rmdirSync(outputCssPath);
+  if (!fs.existsSync(outputCssPath)) {
+    fs.mkdirSync(outputCssPath, { recursive: true });
   }
-  
-  fs.mkdirSync(outputCssPath, { recursive: true });
 
   // 1. default theme
 
@@ -43,7 +41,11 @@ export function doExtraStyle({
   const fileName = `${baseFileName}.${hash.substring(0, 8)}.css`;
   const fullpath = path.join(outputCssPath, fileName);
 
+  const res = `_next/static/css/${dir}/${fileName}`;
+
+  if (fs.existsSync(fullpath)) return res;
+
   fs.writeFileSync(fullpath, css);
 
-  return `_next/static/css/${dir}/${fileName}`;
+  return res;
 }
