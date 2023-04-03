@@ -40,7 +40,7 @@ export function doExtraStyle({
 
   const md5 = createHash("md5");
   const hash = md5.update(css).digest("hex");
-  const fileName = `${asPath.replace("/", "_")}_${baseFileName}.${hash.substring(0, 8)}.css`;
+  const fileName = `${baseFileName}.${hash.substring(0, 8)}.css`;
   const fullpath = path.join(outputCssPath, fileName);
 
   fs.writeFileSync(fullpath, css);
