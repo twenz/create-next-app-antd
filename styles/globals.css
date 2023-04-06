@@ -95,6 +95,10 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+label, h2, .ant-form-text {
+  color: rgb(var(--foreground-rgb)) !important;
+}
+
 a {
   color: inherit;
   text-decoration: none;

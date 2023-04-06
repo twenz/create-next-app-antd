@@ -15,7 +15,7 @@ import {
 const { Option } = Select;
 const { Title } = Typography;
 
-export default function Home() {
+function Home(props: {name: string}) {
   return (
     <>
       <section style={{ textAlign: "center", marginTop: 48, marginBottom: 40 }}>
@@ -26,7 +26,7 @@ export default function Home() {
             alt="Ant Design"
           />
           <Title level={2} style={{ marginBottom: 0 }}>
-            Ant Design
+            {props.name}
           </Title>
         </Space>
       </section>
@@ -74,3 +74,11 @@ export default function Home() {
     </>
   );
 }
+
+export default Home;
+
+export const getServerSideProps = () => ({
+  props: {
+    name: "SSR Page",
+  },
+})
