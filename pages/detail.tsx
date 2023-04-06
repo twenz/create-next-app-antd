@@ -2,8 +2,8 @@ import { Form, InputNumber, Switch, Typography } from "antd";
 
 function Detail(props: { name: string }) {
   return (
-    <>
-      <Typography.Title>{props.name}</Typography.Title>
+    <section style={{ marginTop: 48, marginBottom: 40 }}>
+      <Typography.Title style={{textAlign: "center"}}>{props.name}</Typography.Title>
       <Form labelCol={{ span: 8 }} wrapperCol={{ span: 8 }}>
         <Form.Item label="数字输入框">
           <InputNumber min={1} max={10} defaultValue={3} />
@@ -14,7 +14,7 @@ function Detail(props: { name: string }) {
           <Switch defaultChecked />
         </Form.Item>
       </Form>
-    </>
+    </section>
   );
 }
 
