@@ -42,4 +42,4 @@ package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
-public/antd.min.css
+_next

@@ -1,17 +1,42 @@
 import fs from "fs";
-import { extractStyle } from "@ant-design/static-style-extract";
-import withTheme from "../theme";
+import path from "path";
+import { extractStyle } from "@ant-design/cssinjs";
+import { createHash } from "crypto";
+import type Entity from "@ant-design/cssinjs/lib/Cache";
 
-const outputPath = "./public/antd.min.css";
+const styleTagReg = /<style[^>]*>([\s\S]*?)<\/style>/g;
 
-// 1. default theme
+export type DoExtraStyleOptions = {
+  cache: Entity;
+  dir?: string;
+  baseFileName?: string;
+};
+export function doExtraStyle({
+  cache,
+  dir = "antd-output",
+  baseFileName = "antd.min",
+}: DoExtraStyleOptions) {
+  const baseDir = path.resolve(__dirname, "../../static/css");
 
-// const css = extractStyle();
+  const outputCssPath = path.join(baseDir, dir);
 
-// 2. With custom theme
+  if (!fs.existsSync(outputCssPath)) {
+    fs.mkdirSync(outputCssPath, { recursive: true });
+  }
 
-const css = extractStyle(withTheme);
+  const cssText = extractStyle(cache);
+  const css = cssText.replace(styleTagReg, "$1");
 
-fs.writeFileSync(outputPath, css);
+  const md5 = createHash("md5");
+  const hash = md5.update(css).digest("hex");
+  const fileName = `${baseFileName}.${hash.substring(0, 8)}.css`;
+  const fullpath = path.join(outputCssPath, fileName);
 
-console.log(`🎉 Antd CSS generated at ${outputPath}`);
+  const res = `_next/static/css/${dir}/${fileName}`;
+
+  if (fs.existsSync(fullpath)) return res;
+
+  fs.writeFileSync(fullpath, css);
+
+  return res;
+}
